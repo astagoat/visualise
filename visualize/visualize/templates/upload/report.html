@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> </head>
+
+    </script>
+    <title>Data</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'upload/style.css' %}">
+</head>
+
+<body>
+<h1>Report</h1>
+dndndn
+
+
+{% for item in report_results %}  {# Iterate through dictionaries #}
+    <h3>{{ item.col1 }} vs. {{ item.col2 }}</h3>  {# Access column names directly #}
+
+   
+
+    {% if item.plot_json %} {#Check if json exists#}
+        <div id="plot-{{ forloop.counter }}"></div> {#Unique div for each plot#}
+        <script>
+            var plotData = {{ item.plot_json | safe }}; //Pass JSON using | safe filter
+            Plotly.newPlot('plot-{{ forloop.counter }}', plotData);
+        </script>
+    {% else %}
+        <img src="data:image/png;base64,{{ item.plot }}" alt="Plot"><br>  {# Display plot #}
+        {{ item.title }} <br>
+    {% endif %}
+
+    {# Conditionally display other statistical results #}
+    {% if item.eta_squared %}
+        Eta Squared: {{ item.eta_squared }} <br>
+    {% endif %}
+
+    {% if item.covariance %}
+        Covariance: {{ item.covariance }} <br>
+    {% endif %}
+
+    {% if item.correlation %}
+        Correlation: {{ item.correlation }} <br>
+    {% endif %}
+
+    {% if item.chi2 %}
+        Chi-squared: {{ item.chi2 }} <br>
+        P-value: {{ item.p }} <br>
+    {% endif %}
+
+    {% if item.eta %}
+    Eta: {{ item.eta }} <br>
+    {% endif %}
+
+
+
+    <hr>  {# Separator between comparisons #}
+{% endfor %}
+</body>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Error</title>
+</head>
+<body>
+    <h1>Error during upload</h1>
+    <p>An error occurred during file upload and processing:</p>
+    <p>{{ error }}</p>  <!-- Display the error message -->
+    <a href="{% url 'upload' %}">Try again</a> <!-- Link back to upload page -->
+</body>
+</html>

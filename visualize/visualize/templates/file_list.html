@@ -1,0 +1,91 @@
+<!-- templates/file_list.html -->
+ 
+<!DOCTYPE html>
+<html>
+<head>
+    
+    </script>
+    <title>Data</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'upload/style.css' %}">
+</head>
+<body class="file-body">
+    <div class="title">
+        <h1>Data</h1>
+        <div class="menu">
+            <a href="{% url 'upload:report' %}" >Generate Report</a>
+            <a href="{% url 'upload:compare' %}" >Compare</a>
+        </div>
+        
+        
+
+    </div>
+    
+    
+    {% if not df.empty %}
+    <div class = "search">
+        <form method="get">  <!-- Search form -->
+            <input type="text" name="q" placeholder="Search..." value="{{ query|default_if_none:'' }}">
+            <select name="column">  <!-- Column selection dropdown -->
+                <option value="">All Columns</option>  <!-- Default option for searching all columns -->
+                {% for column in page_obj.object_list.columns %}
+                    <option value="{{ column }}" {% if column == selected_column %}selected{% endif %}>{{ column }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Search</button>
+        </form>
+
+    </div>
+    <div class="sep"></div>
+    
+    <div class="center-flex">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    {% for column in page_obj.object_list.columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in page_obj.object_list.iterrows %}
+
+                    <tr>
+                        <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                        {% for cell in row %}
+                        <td> {{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div class="sep"></div>
+    </div>
+    <div class="sep"></div>
+        <!-- Pagination controls -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&#x2190;
+                        first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}"> &#x2190;previous </a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next &#x2192; </a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &#x2192; </a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>No data available.</p>
+    {% endif %}
+    </ul>
+</body>
+</html>
+

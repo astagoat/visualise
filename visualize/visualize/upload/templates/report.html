@@ -1,0 +1,33 @@
+<h1>Report</h1>
+
+{% if error %}
+    <p>{{ error }}</p>  <!-- Display any errors -->
+{% endif %}
+
+
+{% for item in report_results %}  <!-- Loop directly through report_results -->
+    <h3>{{ item.col1 }} vs. {{ item.col2 }}</h3>
+
+    {% if item.plot_json %}
+       <div id="plot-{{ forloop.counter0 }}"></div>
+       <script>
+            var plotData = {{ item.plot_json|safe }};
+            Plotly.newPlot('plot-{{ forloop.counter0 }}', plotData);
+        </script>
+    {% endif %}
+
+
+    <ul>
+        {% if item.covariance %} <li>Covariance: {{ item.covariance }}</li> {% endif %}
+        {% if item.correlation %} <li>Correlation: {{ item.correlation }}</li> {% endif %}
+        {% if item.chi2 %} <li>Chi-squared: {{ item.chi2 }}</li> {% endif %}
+        {% if item.p %} <li>P-value: {{ item.p }}</li> {% endif %}
+        {% if item.eta_squared %} <li>Eta squared: {{ item.eta_squared }}</li>{% endif %}
+     </ul>
+     <hr>
+
+{% empty %}  <!-- Handle the case where there are no analysis results -->
+     <p>No analysis results available.</p>
+{% endfor %}
+
+

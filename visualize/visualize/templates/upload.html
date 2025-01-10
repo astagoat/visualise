@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'upload/style.css' %}">
+
+    </head>
+    
+    <body class="upload-body">
+        <h1>Upload your Data </h1>
+        <div class="sep"></div><br>
+        <div class="upload-container"> 
+
+
+
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="file-input-container"> 
+                <input type="file" id="fileInput" name="file" class="file-input"> 
+                <label for="fileInput" class="file-input-label">Choose a file</label> <br>
+                <span id="fileName" class="file-name">No file chosen</span> </div>
+            <button type="submit">Upload</button>
+            </div>
+        </form>
+    </div>
+
+        </body>
+    </body>
+</html>

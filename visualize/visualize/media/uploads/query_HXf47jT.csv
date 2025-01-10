@@ -1,0 +1,7 @@
+#group,false,false,true,true,false,false,true,true,true
+#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string,string,string
+#default,mean,,,,,,,,
+,result,table,_start,_stop,_time,_value,_field,_measurement,tagname1
+,,0,2025-01-02T08:01:18.05478563Z,2025-01-02T09:01:18.05478563Z,2025-01-02T08:51:00Z,2,field1,measurement1,tagvalue1
+,,0,2025-01-02T08:01:18.05478563Z,2025-01-02T09:01:18.05478563Z,2025-01-02T08:51:20Z,2,field1,measurement1,tagvalue1
+

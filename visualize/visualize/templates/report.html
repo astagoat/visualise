@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'upload/style.css' %}">
+    <title>Report</title>
+</head>
+<body class="compare-body">
+    <div class="title">
+        <h1>Report</h1>
+    </div>
+
+    <div style="height: 20px;"></div>
+
+
+    {% if error %}  
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% for result in report_results %}
+        <h2>{{ result.col1 }} vs. {{ result.col2 }}</h2>
+
+        {% if result.covariance %}
+            <p>Covariance: {{ result.covariance }}</p>
+        {% endif %}
+
+        {% if result.correlation %}
+            <p>Correlation: {{ result.correlation }}</p>
+        {% endif %}
+
+        {% if result.chi2 %}
+            <p>Chi-squared: {{ result.chi2 }}</p>
+            <p>P-value: {{ result.p }}</p>
+        {% endif %}
+
+         {% if result.eta %}
+            <p>Eta squared: {{ result.eta }}</p>
+        {% endif %}
+
+
+
+        {% if result.plot %}  <!-- Check if 'plot' (base64) exists -->
+            <img src="data:image/png;base64,{{ result.plot }}" alt="Plot">
+        {% elif result.plot_json %} <!-- Check if plot_json exists (Plotly) -->
+           <div id="plot-{{ forloop.counter }}"></div> <script>
+                var plotData = {{ result.plot_json | safe }}; //Use the safe filter to not escape the double quotes
+                Plotly.newPlot('plot-' + {{ forloop.counter }}, plotData.data, plotData.layout);
+            </script>
+        {% endif %}
+
+
+    {% endfor %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
